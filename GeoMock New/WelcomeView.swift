@@ -1,14 +1,11 @@
 //
 //  WelcomeView.swift
-//  Launch screen. Set this (not ContentView) as the root view in your
-//  @main App file's WindowGroup to make it what actually appears on launch.
+//  Home tab: tutorial, Google Maps shortcut and the expiry banner.
 //
 
 import SwiftUI
 
 struct WelcomeView: View {
-    @State private var showRoutes = false
-
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
@@ -21,6 +18,9 @@ struct WelcomeView: View {
                 Text("Welcome to GeoMock")
                     .font(.title.bold())
                     .multilineTextAlignment(.center)
+
+                ExpiryBannerView()
+                    .padding(.horizontal, 32)
 
                 Spacer()
 
@@ -43,22 +43,15 @@ struct WelcomeView: View {
                 }
                 .padding(.horizontal, 32)
 
-                Button("View saved routes") {
-                    showRoutes = true
-                }
-                .font(.footnote)
-                .padding(.top, 4)
-
                 Spacer()
             }
             .padding()
-        }
-        .sheet(isPresented: $showRoutes) {
-            ContentView()
         }
     }
 }
 
 #Preview {
     WelcomeView()
+        .environmentObject(AppExpiryStore())
+        .environmentObject(AppRouter.shared)
 }
