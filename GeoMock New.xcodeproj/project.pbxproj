@@ -27,7 +27,8 @@
 		8F425D653046F4DD001B2B02 /* GeoMock New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GeoMock New.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F425D723046F4DE001B2B02 /* GeoMock NewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GeoMock NewTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F425D7C3046F4DE001B2B02 /* GeoMock NewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GeoMock NewUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F9AB1E83046FD4000738783 /* 650385_80k_-_1556_nodes.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "650385_80k_-_1556_nodes.gpx"; path = "../GPX - Converted/GPX - 650385/650385 - converted 65-75km:h/650385_80k_-_1556_nodes.gpx"; sourceTree = "<group>"; };
+		8F94A8D5306FC3BB008163BD /* 650385 80K @82km:h.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "650385 80K @82km:h.gpx"; path = "GPX/650385 80K @82km:h.gpx"; sourceTree = "<group>"; };
+		8F94A8D6306FC3BB008163BD /* Draycott 81K @82km:h.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Draycott 81K @82km:h.gpx"; path = "GPX/Draycott 81K @82km:h.gpx"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -76,7 +77,8 @@
 		8F425D5C3046F4DD001B2B02 = {
 			isa = PBXGroup;
 			children = (
-				8F9AB1E83046FD4000738783 /* 650385_80k_-_1556_nodes.gpx */,
+				8F94A8D5306FC3BB008163BD /* 650385 80K @82km:h.gpx */,
+				8F94A8D6306FC3BB008163BD /* Draycott 81K @82km:h.gpx */,
 				8F425D673046F4DD001B2B02 /* GeoMock New */,
 				8F425D753046F4DE001B2B02 /* GeoMock NewTests */,
 				8F425D7F3046F4DE001B2B02 /* GeoMock NewUITests */,
@@ -177,13 +179,16 @@
 				TargetAttributes = {
 					8F425D643046F4DD001B2B02 = {
 						CreatedOnToolsVersion = 26.6;
+						LastSwiftMigration = 2660;
 					};
 					8F425D713046F4DE001B2B02 = {
 						CreatedOnToolsVersion = 26.6;
+						LastSwiftMigration = 2660;
 						TestTargetID = 8F425D643046F4DD001B2B02;
 					};
 					8F425D7B3046F4DE001B2B02 = {
 						CreatedOnToolsVersion = 26.6;
+						LastSwiftMigration = 2660;
 						TestTargetID = 8F425D643046F4DD001B2B02;
 					};
 				};
@@ -397,6 +402,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = C4FDXAW9Y6;
@@ -420,6 +426,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -431,6 +438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = C4FDXAW9Y6;
@@ -464,6 +472,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = C4FDXAW9Y6;
@@ -475,6 +484,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -486,6 +496,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = C4FDXAW9Y6;
@@ -507,6 +518,7 @@
 		8F425D8D3046F4DE001B2B02 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = C4FDXAW9Y6;
@@ -517,6 +529,7 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -527,6 +540,7 @@
 		8F425D8E3046F4DE001B2B02 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = C4FDXAW9Y6;

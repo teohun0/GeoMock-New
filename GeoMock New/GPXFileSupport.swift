@@ -11,6 +11,10 @@ import CoreLocation
 
 enum GPXFileSupport {
 
+    /// Name given to the stationary points appended after the route (see buildGPX),
+    /// so GPXParser can skip them when a padded file is imported again.
+    static let holdPointName = "GeoMock hold"
+
     static func haversine(_ a: CLLocationCoordinate2D, _ b: CLLocationCoordinate2D) -> Double {
         let r = 6371000.0
         let lat1 = a.latitude * .pi / 180
@@ -23,7 +27,13 @@ enum GPXFileSupport {
 
     /// Builds GPX text with real, speed-derived <time> deltas between waypoints,
     /// so Xcode paces playback at an actual speed instead of its ~1pt/sec default.
-    static func buildGPX(waypoints: [SimWaypoint], speedKmh: Double) -> String {
+    ///
+    /// Xcode restarts a GPX route from its first point once it reaches the last one.
+    /// To keep the simulated location parked at the destination instead, one
+    /// stationary point per second is added at the final coordinate for
+    /// `holdAtEndMinutes` (pass 0 to switch this off). One point per second works
+    /// whether Xcode paces playback by the <time> stamps or at its own 1 point/sec.
+    static func buildGPX(waypoints: [SimWaypoint], speedKmh: Double, holdAtEndMinutes: Double = 5) -> String {
         guard !waypoints.isEmpty else { return "" }
         let speedMps = max(speedKmh, 0.1) * 1000 / 3600
         var t = Date(timeIntervalSince1970: 1_704_067_200) // arbitrary start; only deltas matter
@@ -43,6 +53,18 @@ enum GPXFileSupport {
             lines.append("    <time>\(formatter.string(from: t))</time>")
             lines.append("    <name>\(escapeXML(wp.name))</name>")
             lines.append("  </wpt>")
+        }
+
+        if holdAtEndMinutes > 0, let last = waypoints.last {
+            let count = max(1, Int((holdAtEndMinutes * 60).rounded()))
+            let routeEnd = t
+            for i in 1...count {
+                let held = routeEnd.addingTimeInterval(Double(i))
+                lines.append("  <wpt lat=\"\(last.lat)\" lon=\"\(last.lng)\">")
+                lines.append("    <time>\(formatter.string(from: held))</time>")
+                lines.append("    <name>\(holdPointName)</name>")
+                lines.append("  </wpt>")
+            }
         }
         lines.append("</gpx>")
         return lines.joined(separator: "\n") + "\n"
@@ -109,7 +131,7 @@ final class GPXParser: NSObject, XMLParserDelegate {
             currentName = textBuffer.trimmingCharacters(in: .whitespacesAndNewlines)
         }
         if elementName == "wpt" || elementName == "trkpt" {
-            if let lat = currentLat, let lon = currentLon {
+            if let lat = currentLat, let lon = currentLon, currentName != GPXFileSupport.holdPointName {
                 let name = currentName.isEmpty ? "Point \(result.count + 1)" : currentName
                 result.append(SimWaypoint(name: name, lat: lat, lng: lon))
             }

@@ -7,8 +7,6 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @State private var showRoutes = false
-
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
@@ -21,6 +19,9 @@ struct WelcomeView: View {
                 Text("Welcome to GeoMock")
                     .font(.title.bold())
                     .multilineTextAlignment(.center)
+
+                ExpiryBannerView(showWhenUnknown: true)
+                    .padding(.horizontal, 32)
 
                 Spacer()
 
@@ -43,22 +44,15 @@ struct WelcomeView: View {
                 }
                 .padding(.horizontal, 32)
 
-                Button("View saved routes") {
-                    showRoutes = true
-                }
-                .font(.footnote)
-                .padding(.top, 4)
-
                 Spacer()
             }
             .padding()
-        }
-        .sheet(isPresented: $showRoutes) {
-            ContentView()
         }
     }
 }
 
 #Preview {
     WelcomeView()
+        .environmentObject(AppExpiryStore())
+        .environmentObject(AppRouter.shared)
 }

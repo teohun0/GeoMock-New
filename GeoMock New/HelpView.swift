@@ -58,6 +58,13 @@ struct HelpView: View {
                 StepRow(number: 4, text: "Switch to Google Maps (or any other app) — it should now track the same simulated position from step above.")
             }
 
+            Section("Route Timer (Timer Tab)") {
+                StepRow(number: 1, text: "Open the Timer tab. Each route shows how long it takes at 82 km/h.")
+                StepRow(number: 2, text: "Tap a route the moment you start it. The countdown begins immediately, and Cancel Timer stops it right away.")
+                StepRow(number: 3, text: "At zero the phone rings and vibrates until you tap Dismiss in the app, even in silent mode or Focus. GeoMock keeps itself running in the background during a timer, so don't swipe it away.")
+                StepRow(number: 4, text: "Use \"Test the ding\" to try it in 10 seconds.")
+            }
+
             Section("Build Your Own Route") {
                 StepRow(number: 1, text: "From the Routes screen, tap \"New Route\" in the top-right.")
                 StepRow(number: 2, text: "Tap anywhere on the map to drop a waypoint — repeat to build out a path.")

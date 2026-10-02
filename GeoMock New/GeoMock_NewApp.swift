@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct GeoMock_NewApp: App {
+    init() {
+        NotificationRouter.shared.install()
+    }
+
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
+            RootTabView()
         }
     }
 }
