@@ -9,6 +9,36 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>GeoMockLiveActivityExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>8F425D643046F4DD001B2B02</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8F425D713046F4DE001B2B02</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8F425D7B3046F4DE001B2B02</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8F49CDAF308A383300DFFAFD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>

@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8F49CDA8308A376E00DFFAFD /* Draycott Distance 81km, 82kmh.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 8FC831BF307BA40B00CE7029 /* Draycott Distance 81km, 82kmh.gpx */; };
+		8F49CDA9308A376E00DFFAFD /* Draycott Distance 81km, 100kmh.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 8FD72FCB3088DEDE00DB2573 /* Draycott Distance 81km, 100kmh.gpx */; };
+		8F49CDAA308A376E00DFFAFD /* 650385 Distance 80km, 100kmh.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 8FD72FCA3088DEDE00DB2573 /* 650385 Distance 80km, 100kmh.gpx */; };
+		8F49CDAB308A376E00DFFAFD /* 650385 Distance 80km, 82kmh.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 8FC831BE307BA40B00CE7029 /* 650385 Distance 80km, 82kmh.gpx */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		8F425D733046F4DE001B2B02 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -23,28 +30,35 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8F49CDCB308A383500DFFAFD /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		8F425D653046F4DD001B2B02 /* GeoMock New.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GeoMock New.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F425D723046F4DE001B2B02 /* GeoMock NewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GeoMock NewTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F425D7C3046F4DE001B2B02 /* GeoMock NewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GeoMock NewUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F94A8D5306FC3BB008163BD /* 650385 80K @82km:h.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "650385 80K @82km:h.gpx"; path = "GPX/650385 80K @82km:h.gpx"; sourceTree = "<group>"; };
-		8F94A8D6306FC3BB008163BD /* Draycott 81K @82km:h.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Draycott 81K @82km:h.gpx"; path = "GPX/Draycott 81K @82km:h.gpx"; sourceTree = "<group>"; };
+		8F49CDB2308A383300DFFAFD /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		8F49CDB4308A383400DFFAFD /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		8FC831BE307BA40B00CE7029 /* 650385 Distance 80km, 82kmh.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "650385 Distance 80km, 82kmh.gpx"; path = "GPX/650385 Distance 80km, 82kmh.gpx"; sourceTree = "<group>"; };
+		8FC831BF307BA40B00CE7029 /* Draycott Distance 81km, 82kmh.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Draycott Distance 81km, 82kmh.gpx"; path = "GPX/Draycott Distance 81km, 82kmh.gpx"; sourceTree = "<group>"; };
+		8FD72FCA3088DEDE00DB2573 /* 650385 Distance 80km, 100kmh.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "650385 Distance 80km, 100kmh.gpx"; path = "GPX/650385 Distance 80km, 100kmh.gpx"; sourceTree = "<group>"; };
+		8FD72FCB3088DEDE00DB2573 /* Draycott Distance 81km, 100kmh.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = "Draycott Distance 81km, 100kmh.gpx"; path = "GPX/Draycott Distance 81km, 100kmh.gpx"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		8F425D673046F4DD001B2B02 /* GeoMock New */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "GeoMock New";
-			sourceTree = "<group>";
-		};
-		8F425D753046F4DE001B2B02 /* GeoMock NewTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "GeoMock NewTests";
-			sourceTree = "<group>";
-		};
-		8F425D7F3046F4DE001B2B02 /* GeoMock NewUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "GeoMock NewUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -77,11 +91,12 @@
 		8F425D5C3046F4DD001B2B02 = {
 			isa = PBXGroup;
 			children = (
-				8F94A8D5306FC3BB008163BD /* 650385 80K @82km:h.gpx */,
-				8F94A8D6306FC3BB008163BD /* Draycott 81K @82km:h.gpx */,
+				8FD72FCA3088DEDE00DB2573 /* 650385 Distance 80km, 100kmh.gpx */,
+				8FD72FCB3088DEDE00DB2573 /* Draycott Distance 81km, 100kmh.gpx */,
+				8FC831BE307BA40B00CE7029 /* 650385 Distance 80km, 82kmh.gpx */,
+				8FC831BF307BA40B00CE7029 /* Draycott Distance 81km, 82kmh.gpx */,
 				8F425D673046F4DD001B2B02 /* GeoMock New */,
-				8F425D753046F4DE001B2B02 /* GeoMock NewTests */,
-				8F425D7F3046F4DE001B2B02 /* GeoMock NewUITests */,
+				8F49CDB1308A383300DFFAFD /* Frameworks */,
 				8F425D663046F4DD001B2B02 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -96,6 +111,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		8F49CDB1308A383300DFFAFD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8F49CDB2308A383300DFFAFD /* WidgetKit.framework */,
+				8F49CDB4308A383400DFFAFD /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -106,6 +130,7 @@
 				8F425D613046F4DD001B2B02 /* Sources */,
 				8F425D623046F4DD001B2B02 /* Frameworks */,
 				8F425D633046F4DD001B2B02 /* Resources */,
+				8F49CDCB308A383500DFFAFD /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -134,9 +159,6 @@
 			dependencies = (
 				8F425D743046F4DE001B2B02 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				8F425D753046F4DE001B2B02 /* GeoMock NewTests */,
-			);
 			name = "GeoMock NewTests";
 			packageProductDependencies = (
 			);
@@ -157,9 +179,6 @@
 			dependencies = (
 				8F425D7E3046F4DE001B2B02 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				8F425D7F3046F4DE001B2B02 /* GeoMock NewUITests */,
-			);
 			name = "GeoMock NewUITests";
 			packageProductDependencies = (
 			);
@@ -174,12 +193,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2660;
+				LastSwiftUpdateCheck = 2700;
 				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					8F425D643046F4DD001B2B02 = {
 						CreatedOnToolsVersion = 26.6;
-						LastSwiftMigration = 2660;
+						LastSwiftMigration = 2700;
 					};
 					8F425D713046F4DE001B2B02 = {
 						CreatedOnToolsVersion = 26.6;
@@ -219,6 +238,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F49CDA8308A376E00DFFAFD /* Draycott Distance 81km, 82kmh.gpx in Resources */,
+				8F49CDA9308A376E00DFFAFD /* Draycott Distance 81km, 100kmh.gpx in Resources */,
+				8F49CDAA308A376E00DFFAFD /* 650385 Distance 80km, 100kmh.gpx in Resources */,
+				8F49CDAB308A376E00DFFAFD /* 650385 Distance 80km, 82kmh.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

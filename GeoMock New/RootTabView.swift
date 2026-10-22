@@ -1,9 +1,10 @@
 //
 //  RootTabView.swift
 //  App root: the existing launch screen on one tab, the route Timer on
-//  the other. The stores live here (not inside individual views) so a
-//  running countdown keeps ticking while you're on the other tab, and so
-//  the expiry banner and re-attach guide work from anywhere.
+//  the next, and the journey Progress tracker on the third. The stores live
+//  here (not inside individual views) so a running countdown keeps ticking
+//  while you're on another tab, the expiry banner works from anywhere, and the
+//  tracker keeps its place along the route when you switch tabs.
 //
 
 import SwiftUI
@@ -12,6 +13,7 @@ struct RootTabView: View {
     @StateObject private var timerStore = RouteTimerStore()
     @StateObject private var expiryStore = AppExpiryStore()
     @StateObject private var connection = MacConnectionMonitor()
+    @StateObject private var journey = JourneyTracker()
     @ObservedObject private var router = AppRouter.shared
     @Environment(\.scenePhase) private var scenePhase
 
@@ -24,20 +26,23 @@ struct RootTabView: View {
             TimerView()
                 .tabItem { Label("Timer", systemImage: "timer") }
                 .tag(AppTab.timer)
-        }
-        .sheet(isPresented: $router.showReattachGuide) {
-            ReattachGuideView(expiry: expiryStore)
+
+            JourneyProgressView()
+                .tabItem { Label("Progress", systemImage: "location.circle") }
+                .tag(AppTab.progress)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
                 timerStore.refresh()
                 expiryStore.refresh()
                 connection.evaluate()
+                journey.resumeIfNeeded()
             }
         }
         // Last on purpose: environment only flows to what sits inside the modifier.
         .environmentObject(timerStore)
         .environmentObject(expiryStore)
+        .environmentObject(journey)
         .environmentObject(router)
     }
 }

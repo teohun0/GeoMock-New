@@ -2,13 +2,18 @@
 //  RouteTimer.swift
 //  Countdown behind the Timer tab. Tap a route and it starts immediately.
 //
-//  At zero you get a "Route complete" notification, the same kind a text
-//  message makes: your default alert tone (Settings > Sounds & Haptics), a
-//  vibration and a banner on the lock screen. It is marked Time Sensitive and
-//  is scheduled with iOS the moment the timer starts, so it arrives even if
-//  the phone is locked, GeoMock is in the background, or the app was closed.
+//  Each route is one timer for its whole length: distance ÷ 100 km/h
+//  (650385 is 80 km = 48:00, Draycott is 81 km = 48:36). Change `distanceKm`
+//  below if a GPX turns out to be a different length.
 //
-//  Like a text, it follows the silent switch (vibrate only) and Focus / Do Not
+//  When the timer ends you get 4 "Route complete" notifications, 3 seconds
+//  apart, the same kind a text message makes: your default alert tone
+//  (Settings > Sounds & Haptics), a vibration and a banner on the lock screen.
+//  Every notification GeoMock sends is marked Time Sensitive. They are all
+//  scheduled with iOS the moment the timer starts, so they arrive even if the
+//  phone is locked, GeoMock is in the background, or the app was closed.
+//
+//  Like a text, they follow the silent switch (vibrate only) and Focus / Do Not
 //  Disturb (hidden) unless GeoMock is allowed in that Focus. Time Sensitive only
 //  breaks through Focus when the app has that capability, which needs a paid
 //  developer account; without it iOS delivers a normal notification.
@@ -29,28 +34,25 @@ struct TimerRoute: Identifiable, Hashable {
     let id: String
     let title: String
     let distanceKm: Double
-    /// How long the countdown runs, in seconds. Measured, not calculated.
-    let durationSeconds: TimeInterval
 
     /// Both routes run at this fixed speed.
-    static let speedKmh: Double = 82
+    static let speedKmh: Double = 100
 
-    /// 47 min 44 s.
-    static let routeSeconds: TimeInterval = 47 * 60 + 44
-
-    /// The two routes on the Timer tab. Change `durationSeconds` here if a
-    /// route turns out to take a different time.
+    /// The two routes on the Timer tab.
     static let all: [TimerRoute] = [
-        TimerRoute(id: "650385", title: "650385", distanceKm: 80, durationSeconds: routeSeconds),
-        TimerRoute(id: "draycott", title: "Draycott", distanceKm: 80, durationSeconds: routeSeconds),
+        TimerRoute(id: "650385", title: "650385", distanceKm: 80),
+        TimerRoute(id: "draycott", title: "Draycott", distanceKm: 81),
     ]
 
     var distanceLabel: String {
         "\(distanceKm.formatted(.number.precision(.fractionLength(0...1)))) km"
     }
 
-    /// The number on the route row and the first frame of the countdown.
-    var duration: TimeInterval { durationSeconds }
+    /// Distance ÷ speed for the whole route, in whole seconds (rounded up).
+    /// 80 km at 100 km/h = 48:00, 81 km = 48:36.
+    var duration: TimeInterval {
+        (distanceKm * 3600 / TimerRoute.speedKmh).rounded(.up)
+    }
 
     var detail: String {
         "\(distanceLabel) at \(Int(TimerRoute.speedKmh)) km/h"
@@ -80,6 +82,11 @@ struct ActiveTimer: Codable, Equatable, Identifiable {
     let endDate: Date
 
     var totalDuration: TimeInterval { endDate.timeIntervalSince(startDate) }
+
+    /// Shown on screen and used as the notification title.
+    var completionTitle: String { "Route complete" }
+
+    var completionBody: String { "\(title) · \(detail)" }
 }
 
 /// The ticking number lives in its own object so only the countdown view
@@ -100,7 +107,9 @@ final class RouteTimerStore: ObservableObject {
     let clock = TimerClock()
 
     private let storageKey = "geomock.routeTimer.active"
-    private let notificationID = NotificationRouter.routeDoneID
+    /// Every notification this store can have scheduled or on screen: the 4-notification
+    /// burst, plus the single one older versions used so it can't linger after an update.
+    private let notificationIDs = NotificationRouter.routeDoneIDs + [NotificationRouter.routeDoneID]
 
     private var ticker: AnyCancellable?
     private var lastShownSecond = -1
@@ -147,9 +156,10 @@ final class RouteTimerStore: ObservableObject {
         clearNotification()
     }
 
-    /// Clears the finished screen and the notification.
+    /// Clears the finished screen and the notifications.
     func dismissFinished() {
         finished = nil
+        clearPersisted()
         clearNotification()
     }
 
@@ -203,32 +213,40 @@ final class RouteTimerStore: ObservableObject {
         finished = timer
         clearPersisted()
 
-        // Put the Dismiss button where you'll see it when you open the app.
-        // The notification is not touched here: iOS delivers it at the end time by itself.
+        // Put the dismiss button where you'll see it when you open the app.
+        // The notifications are not touched here: iOS delivers them at the end time by itself.
         AppRouter.shared.selectedTab = .timer
     }
 
     // MARK: Notification
 
-    /// Asks for permission if needed, then schedules the "Route complete" notification
-    /// for the exact end time. iOS delivers it whether or not the app is still running.
+    /// Asks for permission if needed, then schedules the end-of-route notifications: 4 of them,
+    /// 3 seconds apart, the first at the exact end time. iOS delivers them whether or not the app
+    /// is still running.
     private func scheduleEndNotification(for timer: ActiveTimer) {
         Task { [weak self] in
             let center = UNUserNotificationCenter.current()
             let granted = (try? await center.requestAuthorization(options: [.alert, .sound])) ?? false
             guard let self else { return }
             await self.updateAlertWarning()
-            guard granted, self.active?.id == timer.id else { return }
-            let delay = timer.endDate.timeIntervalSinceNow
-            guard delay > 0.5 else { return }
+            guard granted else { return }
 
-            let content = UNMutableNotificationContent()
-            content.title = "Route complete"
-            content.body = "\(timer.title) · \(timer.detail)"
-            content.sound = .default                    // your default alert tone, like a text
-            content.interruptionLevel = .timeSensitive  // needs the capability to break through Focus
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: delay, repeats: false)
-            try? await center.add(UNNotificationRequest(identifier: self.notificationID, content: content, trigger: trigger))
+            for (index, id) in NotificationRouter.routeDoneIDs.enumerated() {
+                // Stop if the timer was cancelled or replaced while we were scheduling.
+                guard self.active?.id == timer.id else { return }
+
+                // Worked out from the end date each time, so the gaps stay exact however long each add takes.
+                let delay = timer.endDate.timeIntervalSinceNow + Double(index) * NotificationRouter.burstGap
+                guard delay > 0.5 else { continue }
+
+                let content = UNMutableNotificationContent()
+                content.title = timer.completionTitle
+                content.body = timer.completionBody
+                content.sound = .default                    // your default alert tone, like a text
+                content.interruptionLevel = .timeSensitive  // needs the capability to break through Focus
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: delay, repeats: false)
+                try? await center.add(UNNotificationRequest(identifier: id, content: content, trigger: trigger))
+            }
         }
     }
 
@@ -244,11 +262,11 @@ final class RouteTimerStore: ObservableObject {
         }
     }
 
-    /// Removes our notification whether it is still waiting or already on screen.
+    /// Removes our notifications whether they are still waiting or already on screen.
     private func clearNotification() {
         let center = UNUserNotificationCenter.current()
-        center.removePendingNotificationRequests(withIdentifiers: [notificationID])
-        center.removeDeliveredNotifications(withIdentifiers: [notificationID])
+        center.removePendingNotificationRequests(withIdentifiers: notificationIDs)
+        center.removeDeliveredNotifications(withIdentifiers: notificationIDs)
     }
 
     // MARK: Persistence

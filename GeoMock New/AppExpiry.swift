@@ -5,7 +5,7 @@
 //  the app keeps its own 7-day timer and sends one reminder a day before it
 //  runs out. It doesn't look at the signing at all: the timer starts the
 //  first time the app opens and starts over when you tap "Reset 7-day timer"
-//  at the end of the re-attach guide (do that once Xcode has reinstalled the app).
+//  on the expiry banner (do that once Xcode has reinstalled the app).
 //
 
 import Foundation
@@ -22,7 +22,8 @@ final class AppExpiryStore: ObservableObject {
     @Published private(set) var notificationsDenied = false
 
     private let startKey = "geomock.expiry.start"
-    private let scheduledKey = "geomock.expiry.scheduledFor"
+    // ".v2" so the reminder is rescheduled once with its new wording.
+    private let scheduledKey = "geomock.expiry.scheduledFor.v2"
     private let reminderID = "geomock.expiry.1d"
     /// Reminders an earlier version scheduled; cleared so they can't fire on a stale date.
     private let legacyReminderIDs = ["geomock.expiry.2d", "geomock.expiry.3h", "geomock.expiry.0"]
@@ -81,9 +82,9 @@ final class AppExpiryStore: ObservableObject {
         if fireDate > Date().addingTimeInterval(5) {
             let content = UNMutableNotificationContent()
             content.title = "GeoMock expires tomorrow"
-            content.body = "Plug your iPhone into your Mac and run it from Xcode to re-attach it. Tap to see the steps."
+            content.body = "Plug your iPhone into your Mac and run it from Xcode to renew it."
             content.sound = .default
-            content.categoryIdentifier = NotificationRouter.expiryCategory
+            content.interruptionLevel = .timeSensitive   // needs the capability to break through Focus
 
             let parts = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: fireDate)
             let trigger = UNCalendarNotificationTrigger(dateMatching: parts, repeats: false)
