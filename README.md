@@ -1,0 +1,1 @@
+Hello, welcome. GeoMock New is served as a repository for the GeoMock New Software. GeoMock is hereby copyrighted by asjunx and atomTechnologies. If you want to use it, click on the version that is the highest (For example, you want to download but there are versions v1.0 and v1.1, so you select v1.1 which is the latest). Do note that GeoMock New is for Apple Devices only
